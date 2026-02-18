@@ -20,32 +20,7 @@ export default function MainSidebar() {
                 </div>
                 <nav className="mt-2">
                     <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-                        <li className="nav-item">
-                            <a href="/dictionaries" className="nav-link">
-                                <IoIosDocument className="nav-icon"/>
-                                <p>Справочники</p>
-                            </a>
-                        </li>
-                        <li className="nav-header">Программы</li>
-                        <li className="nav-item">
-                            <a href="/templates" className="nav-link">
-                                <MdAlbum className="nav-icon"/>
-                                <p>Шаблоны программ</p>
-                            </a>
-                        </li>
-                        <li className="nav-item">
-                            <a href="/programs" className="nav-link">
-                                <IoListOutline className="nav-icon"/>
-                                <p>Программы</p>
-                            </a>
-                        </li>
-                        <li className="nav-header">Формулы</li>
-                        <li className="nav-item">
-                            <a href="/formulas" className="nav-link">
-                                <IoCalculatorOutline className="nav-icon"/>
-                                <p>Формулы</p>
-                            </a>
-                        </li>
+                        
                     </ul>
                 </nav>
             </div>
