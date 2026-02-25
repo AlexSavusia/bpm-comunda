@@ -9,12 +9,14 @@ export type DiagramNode = {
     name: string;
 };
 
+
 export type DiagramEdge = {
     id: string;
     from: string;
     to: string;
-    name?: string;
+    waypoints?: Point[];
 };
+
 
 export type DiagramSchema = {
     nodes: DiagramNode[];
