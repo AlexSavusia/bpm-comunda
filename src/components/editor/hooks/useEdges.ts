@@ -1,4 +1,3 @@
-// src/components/editor/hooks/useEdges.ts
 import { useMemo, useState, useCallback } from "react";
 import type { DiagramSchema, DiagramNode, NodeType } from "../../../types/schema";
 import { validateSchema } from "../validateSchema";
@@ -26,8 +25,8 @@ type UseEdgesArgs = {
     getWorldPoint: (e: React.MouseEvent<Element>) => Point;
     isSnapEnabled: boolean;
     gridSize: 8 | 16;
-    selectNode: (id: string) => void;
-    selectEdge: (id: string) => void;
+    selectNode: (id: string | null) => void;
+    selectEdge: (id: string | null) => void;
     selectedEdgeId: string | null;
 };
 
@@ -107,7 +106,7 @@ export function useEdges(args: UseEdgesArgs) {
         selectEdge(edgeId);
     }, [selectEdge]);
 
-    // --- geometry helpers
+
     const clampEdgePoint = useCallback((fromId: string, toId: string) => {
         const from = schema.nodes.find((n) => n.id === fromId);
         const to = schema.nodes.find((n) => n.id === toId);
@@ -147,7 +146,7 @@ export function useEdges(args: UseEdgesArgs) {
         }));
     }, []);
 
-    // --- node drag
+
     const [dragNode, setDragNode] = useState<DragNode>(null);
 
     const onNodeMouseDown = useCallback((e: React.MouseEvent<Element>, nodeId: string) => {
@@ -181,7 +180,7 @@ export function useEdges(args: UseEdgesArgs) {
 
     const endNodeDrag = useCallback(() => setDragNode(null), []);
 
-    // --- waypoint drag (axis-lock)
+
     const [wpDrag, setWpDrag] = useState<WaypointDrag>(null);
 
     const setWaypoint = useCallback((edgeId: string, index: number, x: number, y: number) => {
@@ -208,19 +207,14 @@ export function useEdges(args: UseEdgesArgs) {
         const curr = edge.waypoints[index];
         const next = edge.waypoints[index + 1];
 
-        // если нет соседей — по умолчанию x
         if (!curr) return "x";
         if (!prev && !next) return "x";
 
-        // если есть оба соседа — ориентируемся по направлению "prev -> next"
         if (prev && next) {
             return Math.abs(prev.x - next.x) > Math.abs(prev.y - next.y) ? "y" : "x";
         }
 
-        // если есть только один сосед
         const n = prev ?? next!;
-        // если точки стоят вертикально — двигаем по X, чтобы сохранялась ортогональность,
-        // если горизонтально — двигаем по Y
         return Math.abs(n.x - curr.x) > Math.abs(n.y - curr.y) ? "y" : "x";
     };
 
@@ -248,7 +242,6 @@ export function useEdges(args: UseEdgesArgs) {
 
     const endWaypointDrag = useCallback(() => setWpDrag(null), []);
 
-    // --- add waypoint in nearest segment (manual-only, no auto bends)
     const addWaypointNearest = useCallback((edgeId: string, clickWorld: Point) => {
         const edge = schema.edges.find((e) => e.id === edgeId);
         if (!edge) return;
@@ -268,7 +261,6 @@ export function useEdges(args: UseEdgesArgs) {
 
         const newWpRaw = best.proj;
 
-        // анти-спам и не рядом со start/end
         const EPS = 6;
         const EPS2 = EPS * EPS;
         if (dist2(newWpRaw, pts[0]) < EPS2) return;
@@ -280,7 +272,7 @@ export function useEdges(args: UseEdgesArgs) {
         const shouldSnap = isSnapEnabled;
         const newWp = shouldSnap ? snapPoint(newWpRaw.x, newWpRaw.y, gridSize) : newWpRaw;
 
-        const insertAt = best.segIndex; // IMPORTANT: matches [start,...wps,end]
+        const insertAt = best.segIndex;
 
         setSchema((prev) => ({
             ...prev,
@@ -334,12 +326,11 @@ export function useEdges(args: UseEdgesArgs) {
 
         getEdgePolyline,
 
-        // node drag
         onNodeMouseDown,
         updateNodeDrag,
         endNodeDrag,
+        dragNodeId: dragNode?.nodeId ?? null,
 
-        // waypoint drag
         beginWaypointDrag,
         getWaypointAxis,
         updateWaypointDrag,

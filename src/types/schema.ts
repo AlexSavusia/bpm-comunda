@@ -1,12 +1,20 @@
-export type NodeType = "start" | "task" | "gateway" | "end";
+export type NodeType =
+    | "startEvent"
+    | "intermediateThrowEvent"
+    | "endEvent"
+    | "task"
+    | "exclusiveGateway"
+    | "parallelGateway"
+    | "eventBasedGateway";
 
 export type Point = { x: number; y: number };
+
 
 export type DiagramNode = {
     id: string;
     type: NodeType;
-    position: Point;
     name: string;
+    position: { x: number; y: number };
 };
 
 
@@ -26,7 +34,9 @@ export type DiagramSchema = {
 export type ValidationIssue = {
     id: string;
     level: "error" | "warning";
-    message: string;
+    i18nKey: string;
+    i18nParams?: Record<string, any>;
     nodeId?: string;
     edgeId?: string;
 };
+

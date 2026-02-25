@@ -1,0 +1,116 @@
+.de {
+    height: calc(100vh - 64px);
+    display: grid;
+    grid-template-columns: 260px 1fr 340px;
+    background: #f8fafc;
+    color: #111827;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+}
+
+.de__left,
+.de__right {
+    background: #ffffff;
+}
+
+.de__left {
+    border-right: 1px solid #e5e7eb;
+    padding: 12px;
+    display: grid;
+    gap: 12px;
+}
+
+.de__leftSection {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 12px;
+    display: grid;
+    gap: 10px;
+}
+
+.de__center {
+    padding: 12px;
+}
+
+.de__right {
+    border-left: 1px solid #e5e7eb;
+    padding: 0; /* InspectorPanel сам управляет */
+}
+
+/* ===== Controls ===== */
+.de__check {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 13px;
+    color: #111827;
+}
+
+.de__check input {
+    width: 16px;
+    height: 16px;
+}
+
+.de__hint {
+    font-size: 12px;
+    color: #6b7280;
+    line-height: 1.35;
+}
+
+/* segmented (language / grid size) */
+.editor-controls {
+    display: grid;
+    gap: 10px;
+}
+
+.segmented {
+    display: inline-flex;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.02);
+}
+
+.segmented__btn {
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #374151;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.segmented__btn:hover:not(:disabled) {
+    background: #f3f4f6;
+}
+
+.segmented__btn.active {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+.segmented__btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+/* ===== Canvas ===== */
+.de__canvas {
+    position: relative;
+    height: 520px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 10px 24px rgba(17, 24, 39, 0.06);
+    overscroll-behavior: contain;
+    touch-action: none;
+}
+
+/* inner layer moved by pan/zoom (your viewport.canvasInnerStyle) */
+.de__canvasInner {
+    position: absolute;
+    inset: 0;
+}

@@ -1,0 +1,77 @@
+{
+  "editor": {
+    "palette": "Palette",
+    "canvas": "Canvas",
+    "properties": "Properties",
+
+    "addStart": "+ Start",
+    "addTask": "+ Task",
+    "addGateway": "+ Gateway",
+    "addEnd": "+ End",
+
+    "connectMode": "Connect mode",
+    "snapToGrid": "Snap to grid",
+    "grid8": "8px",
+    "grid16": "16px",
+    "tipAlt": "Tip: hold Alt for free movement",
+    "zoomTip": "Zoom: Ctrl/Cmd + wheel. Pan: hold Space and drag.",
+
+    "selectElement": "Select an element",
+    "deleteNode": "Delete node",
+    "deleteEdge": "Delete edge",
+    "deleteWaypoint": "Delete waypoint",
+
+    "waypoint": "Waypoint",
+    "edge": "Edge",
+    "node": "Node",
+    "from": "From",
+    "to": "To",
+
+    "inspector": "Inspector",
+    "problems": "Problems",
+    "noIssues": "No issues",
+    "close": "Close",
+
+    "clear": "Clear",
+    "clearSelection": "Clear selection",
+
+    "nothingSelected": "Nothing selected",
+    "nothingSelectedHint": "Click a node, edge, or waypoint to see its settings.",
+
+    "name": "Name",
+    "type": "Type",
+    "index": "Index",
+    "namePlaceholder": "Enter name…"
+  },
+
+  "validation": {
+    "edgeInvalidFrom": "Edge \"{{edgeId}}\" references a missing node \"{{nodeId}}\" (from)",
+    "edgeInvalidTo": "Edge \"{{edgeId}}\" references a missing node \"{{nodeId}}\" (to)",
+
+    "noStart": "No Start node. Add exactly one Start.",
+    "tooManyStarts": "Too many Start nodes ({{count}}). There must be exactly one.",
+    "noEnd": "No End node. Add at least one End.",
+
+    "startHasIncoming": "Start node must not have incoming connections.",
+    "endHasOutgoing": "End node must not have outgoing connections.",
+
+    "noIncoming": "Node \"{{name}}\" has no incoming connections.",
+    "noOutgoing": "Node \"{{name}}\" has no outgoing connections."
+  },
+
+  "palette": {
+    "events": "Events",
+    "tasks": "Tasks",
+    "gateways": "Gateways",
+
+    "startEvent": "Start event",
+    "intermediateThrowEvent": "Intermediate throw event",
+    "endEvent": "End event",
+
+    "task": "Task",
+
+    "exclusiveGateway": "Exclusive gateway",
+    "parallelGateway": "Parallel gateway",
+    "eventBasedGateway": "Event-based gateway"
+  }
+}

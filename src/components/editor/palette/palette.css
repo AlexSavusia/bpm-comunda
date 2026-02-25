@@ -1,0 +1,55 @@
+.cm-palette {
+    display: grid;
+    gap: 14px;
+}
+
+.cm-palette-group {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+    padding: 10px;
+}
+
+.cm-palette-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #6b7280;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.cm-palette-items {
+    display: grid;
+    gap: 6px;
+}
+
+.cm-palette-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    border: 1px solid transparent;
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.cm-palette-item:hover {
+    background: #f9fafb;
+    border-color: #e5e7eb;
+}
+
+.cm-palette-icon {
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+}
+
+.cm-palette-label {
+    font-size: 13px;
+    color: #111827;
+}

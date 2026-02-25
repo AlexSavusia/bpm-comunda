@@ -1,5 +1,4 @@
-// src/components/editor/hooks/useSelection.ts
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export type WaypointRef = {
     edgeId: string;
@@ -11,29 +10,29 @@ export function useSelection() {
     const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
     const [selectedWaypoint, setSelectedWaypoint] = useState<WaypointRef | null>(null);
 
-    const selectNode = (id: string) => {
+    const selectNode = useCallback((id: string | null) => {
         setSelectedEdgeId(null);
         setSelectedWaypoint(null);
         setSelectedNodeId(id);
-    };
+    }, []);
 
-    const selectEdge = (id: string) => {
+    const selectEdge = useCallback((id: string | null) => {
         setSelectedNodeId(null);
         setSelectedWaypoint(null);
         setSelectedEdgeId(id);
-    };
+    }, []);
 
-    const selectWaypoint = (edgeId: string, index: number) => {
+    const selectWaypoint = useCallback((edgeId: string, index: number) => {
         setSelectedNodeId(null);
-        setSelectedEdgeId(edgeId);
+        setSelectedEdgeId(null);
         setSelectedWaypoint({ edgeId, index });
-    };
+    }, []);
 
-    const clearSelection = () => {
+    const clear = useCallback(() => {
         setSelectedNodeId(null);
         setSelectedEdgeId(null);
         setSelectedWaypoint(null);
-    };
+    }, []);
 
     return {
         selectedNodeId,
@@ -43,6 +42,6 @@ export function useSelection() {
         selectNode,
         selectEdge,
         selectWaypoint,
-        clearSelection,
+        clear
     };
 }

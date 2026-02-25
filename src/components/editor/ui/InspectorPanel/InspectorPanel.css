@@ -1,0 +1,215 @@
+/* src/components/editor/InspectorPanel.css */
+.insp {
+    border-left: 1px solid #e5e7eb;
+    padding: 12px;
+    display: grid;
+    gap: 12px;
+    background: #fff;
+}
+
+.insp__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.insp__title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.insp__ghostBtn {
+    height: 30px;
+    padding: 0 10px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    cursor: pointer;
+    font-size: 12px;
+}
+.insp__ghostBtn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.insp__section {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    overflow: hidden;
+}
+
+.insp__sectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 10px;
+    border-bottom: 1px solid #f3f4f6;
+    background: #fafafa;
+}
+
+.insp__sectionTitle {
+    font-size: 12px;
+    font-weight: 700;
+    color: #374151;
+}
+
+.insp__sectionBody {
+    padding: 10px;
+    display: grid;
+    gap: 10px;
+}
+
+.insp__row {
+    display: grid;
+    gap: 4px;
+}
+
+.insp__label {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.insp__value {
+    font-size: 13px;
+    color: #111827;
+}
+
+.insp__mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 12px;
+    color: #111827;
+    background: #f9fafb;
+    border: 1px solid #eef2f7;
+    padding: 6px 8px;
+    border-radius: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.insp__field {
+    display: grid;
+    gap: 6px;
+}
+
+.insp__input {
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    padding: 0 10px;
+    outline: none;
+    font-size: 13px;
+}
+.insp__input:focus {
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.insp__btnRow {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.insp__btn {
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    cursor: pointer;
+    font-size: 12px;
+}
+.insp__btn--danger {
+    border-color: #fecaca;
+    background: #fef2f2;
+    color: #b91c1c;
+}
+
+.insp__pill {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+.insp__pill--red {
+    background: #fef2f2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+.insp__pill--green {
+    background: #f0fdf4;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.insp__ok {
+    font-size: 12px;
+    color: #16a34a;
+}
+
+.insp__problems {
+    display: grid;
+    gap: 8px;
+}
+
+.insp__problem {
+    text-align: left;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    cursor: pointer;
+    display: grid;
+    gap: 8px;
+}
+.insp__problem:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.insp__problemTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.insp__badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+.insp__badge--red {
+    background: #fef2f2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+.insp__badge--amber {
+    background: #fffbeb;
+    color: #b45309;
+    border-color: #fde68a;
+}
+
+.insp__problemText {
+    font-size: 13px;
+    color: #111827;
+    line-height: 1.25;
+}
+
+.insp__empty {
+    display: grid;
+    gap: 6px;
+    padding: 4px 2px;
+}
+.insp__emptyTitle {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+}
+.insp__emptyText {
+    font-size: 12px;
+    color: #6b7280;
+}
