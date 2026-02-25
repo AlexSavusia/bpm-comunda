@@ -1,5 +1,6 @@
 {
   "editor": {
+
     "palette": "Палитра",
     "canvas": "Холст",
     "properties": "Свойства",
@@ -14,7 +15,7 @@
     "grid8": "8px",
     "grid16": "16px",
     "tipAlt": "Подсказка: удерживай Alt для свободного перемещения",
-    "zoomTip": "Масштаб: Ctrl/Cmd + колесо. Панорама: удерживай Space и тяни мышью.",
+    "zoomTip": "Масштаб",
 
     "selectElement": "Выбери элемент",
     "deleteNode": "Удалить ноду",
@@ -24,6 +25,8 @@
     "waypoint": "Точка",
     "edge": "Стрелка",
     "node": "Нода",
+    "undo": "Вернуть",
+    "redo": "Восстановить",
     "from": "От",
     "to": "К",
 
@@ -42,7 +45,35 @@
     "noIssues": "Ошибок нет",
 
     "nothingSelected": "Ничего не выбрано",
-    "nothingSelectedHint": "Кликни по ноде, стрелке или точке, чтобы увидеть параметры."
+    "nothingSelectedHint": "Кликни по ноде, стрелке или точке, чтобы увидеть параметры.",
+    "hotkeys": {
+      "title": "Горячие клавиши",
+
+      "undo": { "keys": "Ctrl/Cmd + Z", "desc": "Отменить" },
+      "redo": { "keys": "Ctrl/Cmd + Shift + Z / Ctrl + Y", "desc": "Повторить" },
+      "reset": { "keys": "Ctrl/Cmd + 0", "desc": "Сбросить зум/пан" },
+
+      "pan": { "keys": "Space + Drag", "desc": "Панорама" },
+      "zoom": { "keys": "Ctrl/Cmd + Wheel", "desc": "Масштаб" },
+
+      "clearSelection": { "keys": "Esc", "desc": "Снять выделение" },
+      "delete": { "keys": "Del / Backspace", "desc": "Удалить выбранное (точка → стрелка → нода)" },
+
+      "altBypassSnap": { "keys": "Alt", "desc": "Игнорировать привязку к сетке" },
+      "addWaypoint": { "keys": "Alt + Click", "desc": "Добавить точку на стрелке" }
+    },
+
+    "mouseDrag": "Drag",
+    "mouseClick": "Click",
+    "hk": {
+      "pan": "Панорама",
+      "zoom": "Зум",
+      "resetViewport": "Сброс zoom/pan",
+      "clearSelection": "Снять выделение",
+      "deleteSelected": "Удалить выбранное (точка → стрелка → нода)",
+      "altBypassSnap": "Игнорировать привязку к сетке",
+      "addWaypoint": "Добавить точку на стрелке"
+    }
   },
   "validation": {
     "edgeInvalidFrom": "Стрелка \"{{edgeId}}\" ссылается на несуществующую ноду \"{{nodeId}}\" (from)",

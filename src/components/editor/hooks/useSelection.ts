@@ -10,17 +10,17 @@ export function useSelection() {
     const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
     const [selectedWaypoint, setSelectedWaypoint] = useState<WaypointRef | null>(null);
 
-    const selectNode = useCallback((id: string | null) => {
+    const selectNode = (id: string | null) => {
         setSelectedEdgeId(null);
         setSelectedWaypoint(null);
         setSelectedNodeId(id);
-    }, []);
+    };
 
-    const selectEdge = useCallback((id: string | null) => {
+    const selectEdge = (id: string | null) => {
         setSelectedNodeId(null);
         setSelectedWaypoint(null);
         setSelectedEdgeId(id);
-    }, []);
+    };
 
     const selectWaypoint = useCallback((edgeId: string, index: number) => {
         setSelectedNodeId(null);

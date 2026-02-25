@@ -5,6 +5,8 @@
     display: grid;
     gap: 12px;
     background: #fff;
+    height: 100%;
+    grid-template-rows: auto 1fr;
 }
 
 .insp__header {

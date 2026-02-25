@@ -14,7 +14,7 @@
     "grid8": "8px",
     "grid16": "16px",
     "tipAlt": "Tip: hold Alt for free movement",
-    "zoomTip": "Zoom: Ctrl/Cmd + wheel. Pan: hold Space and drag.",
+    "zoomTip": "Zoom",
 
     "selectElement": "Select an element",
     "deleteNode": "Delete node",
@@ -25,6 +25,8 @@
     "edge": "Edge",
     "node": "Node",
     "from": "From",
+    "undo": "Undo",
+    "redo": "Redo",
     "to": "To",
 
     "inspector": "Inspector",
@@ -41,7 +43,36 @@
     "name": "Name",
     "type": "Type",
     "index": "Index",
-    "namePlaceholder": "Enter name…"
+    "namePlaceholder": "Enter name…",
+
+    "hotkeys": {
+      "title": "Hotkeys",
+
+      "undo": { "keys": "Ctrl/Cmd + Z", "desc": "Undo" },
+      "redo": { "keys": "Ctrl/Cmd + Shift + Z / Ctrl + Y", "desc": "Redo" },
+      "reset": { "keys": "Ctrl/Cmd + 0", "desc": "Reset zoom/pan" },
+
+      "pan": { "keys": "Space + Drag", "desc": "Pan" },
+      "zoom": { "keys": "Ctrl/Cmd + Wheel", "desc": "Zoom" },
+
+      "clearSelection": { "keys": "Esc", "desc": "Clear selection" },
+      "delete": { "keys": "Del / Backspace", "desc": "Delete selected (waypoint → edge → node)" },
+
+      "altBypassSnap": { "keys": "Alt", "desc": "Bypass snap-to-grid" },
+      "addWaypoint": { "keys": "Alt + Click", "desc": "Add waypoint on edge" }
+    },
+
+    "mouseDrag": "Drag",
+    "mouseClick": "Click",
+    "hk": {
+      "pan": "Pan",
+      "zoom": "Zoom",
+      "resetViewport": "Reset zoom/pan",
+      "clearSelection": "Clear selection",
+      "deleteSelected": "Delete selected (waypoint → edge → node)",
+      "altBypassSnap": "Bypass snap-to-grid",
+      "addWaypoint": "Add waypoint on edge"
+    }
   },
 
   "validation": {

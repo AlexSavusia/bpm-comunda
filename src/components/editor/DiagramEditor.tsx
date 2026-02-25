@@ -1,13 +1,15 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import type { NodeType } from "../../types/schema";
 import { useViewport } from "./hooks/useViewport";
 import { useSelection } from "./hooks/useSelection";
+import { useEditorHotkeys } from "./hooks/hotkeys/useEditorHotkeys";
 import { useEdges } from "./hooks/useEdges";
 import { useTranslation } from "react-i18next";
 import { validateSchema } from "./validateSchema";
 import EdgeLayer from "./EdgeLayer";
 import Palette from "./palette/Palette";
 import NodeCard from "./ui/NodeCard";
+import HotkeysHelp from "./ui/HotkeysHelp/HotkeysHelp";
 import InspectorPanel from "./ui/InspectorPanel";
 import "./DiagramEditor.css";
 
@@ -29,6 +31,28 @@ export default function DiagramEditor() {
         selectedEdgeId: selection.selectedEdgeId,
     });
 
+    useEditorHotkeys({
+        selectedNodeId: selection.selectedNodeId,
+        selectedEdgeId: selection.selectedEdgeId,
+        selectedWaypoint: selection.selectedWaypoint,
+
+        selectNode: selection.selectNode,
+        selectEdge: selection.selectEdge,
+        clearWaypoint: () => selection.setSelectedWaypoint(null),
+
+        removeNode: edges.removeNode,
+        removeEdge: edges.removeEdge,
+        removeWaypoint: edges.removeWaypoint,
+
+        resetViewport: viewport.resetViewport,
+
+        // NEW
+        undo: edges.undo,
+        redo: edges.redo,
+        canUndo: edges.canUndo,
+        canRedo: edges.canRedo,
+    });
+
     const issues = useMemo(() => validateSchema(edges.schema), [edges.schema]);
 
     const selectedNode = useMemo(
@@ -43,22 +67,6 @@ export default function DiagramEditor() {
 
 
     const addNode = (type: NodeType) => edges.addNode(type);
-
-    useEffect(() => {
-        const onKeyDown = (e: KeyboardEvent) => {
-            const wp = selection.selectedWaypoint;
-            if (!wp) return;
-            if (e.key === "Delete" || e.key === "Backspace") {
-                e.preventDefault();
-                edges.removeWaypoint(wp.edgeId, wp.index);
-                selection.setSelectedWaypoint(null);
-            }
-        };
-
-        window.addEventListener("keydown", onKeyDown);
-        return () => window.removeEventListener("keydown", onKeyDown);
-    }, [selection.selectedWaypoint, edges.removeWaypoint]);
-
     return (
         <div className="de">
             {/* LEFT */}
@@ -66,6 +74,17 @@ export default function DiagramEditor() {
                 <Palette onAdd={addNode} />
 
                 <div className="de__leftSection">
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "center" }}>
+                        <div className="segmented">
+                            <button className="segmented__btn" disabled={!edges.canUndo} onClick={edges.undo}>
+                                {t("editor.undo")}
+                            </button>
+                            <button className="segmented__btn" disabled={!edges.canRedo} onClick={edges.redo}>
+                                {t("editor.redo")}
+                            </button>
+                        </div>
+                    </div>
+
                     <label className="de__check">
                         <input
                             type="checkbox"
@@ -86,10 +105,9 @@ export default function DiagramEditor() {
                         />
                         <span>{t("editor.connectMode")}</span>
                     </label>
-
-                    <div className="de__hint">{t("editor.zoomTip")}</div>
-
                     <div className="editor-controls">
+                        <HotkeysHelp t={t} />
+
                         {/* Language switch */}
                         <div className="segmented">
                             <button
@@ -105,7 +123,6 @@ export default function DiagramEditor() {
                                 EN
                             </button>
                         </div>
-
                         {/* Grid size */}
                         <div className="segmented">
                             <button
@@ -134,7 +151,15 @@ export default function DiagramEditor() {
                     className="de__canvas"
                     style={{ cursor: viewport.panMode ? "grab" : "default" }}
                     onWheel={viewport.onWheel}
-                    onMouseDown={viewport.onCanvasMouseDown}
+                    onMouseDown={(e) => {
+                        viewport.onCanvasMouseDown(e);
+
+                        if (!viewport.panMode) {
+                            selection.setSelectedWaypoint(null);
+                            selection.selectEdge(null);
+                            selection.selectNode(null);
+                        }
+                    }}
                     onMouseMove={(e) => {
                         if (edges.updateWaypointDrag(e)) return;
                         viewport.onCanvasMouseMovePan(e);

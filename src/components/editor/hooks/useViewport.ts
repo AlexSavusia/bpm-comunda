@@ -111,6 +111,41 @@ export function useViewport(opts: ViewportOptions = {}) {
         [pan.x, pan.y, zoom]
     );
 
+    const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
+
+    const resetViewport = () => {
+        setZoom(1);
+        setPan({ x: 0, y: 0 });
+    };
+
+    const zoomAtClientPoint = (nextZoom: number, clientX: number, clientY: number) => {
+        const rect = canvasRef.current?.getBoundingClientRect();
+        if (!rect) return;
+
+        const cx = clientX - rect.left;
+        const cy = clientY - rect.top;
+
+        const scale = nextZoom / zoom;
+
+        setPan((p) => ({
+            x: cx - scale * (cx - p.x),
+            y: cy - scale * (cy - p.y),
+        }));
+        setZoom(nextZoom);
+    };
+
+    const zoomIn = (clientX?: number, clientY?: number) => {
+        const next = clamp(zoom + ZOOM_STEP, ZOOM_MIN, ZOOM_MAX);
+        if (clientX != null && clientY != null) zoomAtClientPoint(next, clientX, clientY);
+        else setZoom(next);
+    };
+
+    const zoomOut = (clientX?: number, clientY?: number) => {
+        const next = clamp(zoom - ZOOM_STEP, ZOOM_MIN, ZOOM_MAX);
+        if (clientX != null && clientY != null) zoomAtClientPoint(next, clientX, clientY);
+        else setZoom(next);
+    };
+
     return {
         canvasRef,
         zoom,
@@ -124,5 +159,8 @@ export function useViewport(opts: ViewportOptions = {}) {
         onCanvasMouseDown,
         onCanvasMouseMovePan,
         endPan,
+        resetViewport,
+        zoomIn,
+        zoomOut,
     };
 }

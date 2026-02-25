@@ -3,6 +3,7 @@ import type { DiagramSchema, DiagramNode, NodeType } from "../../../types/schema
 import { validateSchema } from "../validateSchema";
 import type { Point } from "../utils/geometry";
 import { dist2, projectToSegment, snapPoint } from "../utils/geometry";
+import { useHistoryState } from "./history/useHistoryState";
 
 const NODE_W = 160;
 const NODE_H = 56;
@@ -33,7 +34,10 @@ type UseEdgesArgs = {
 export function useEdges(args: UseEdgesArgs) {
     const { getWorldPoint, isSnapEnabled, gridSize, selectNode, selectEdge, selectedEdgeId } = args;
 
-    const [schema, setSchema] = useState<DiagramSchema>(initialSchema);
+    const history = useHistoryState<DiagramSchema>(initialSchema, { limit: 200 });
+
+    const schema = history.present;
+    const setSchema = history.set;
 
     const issues = useMemo(() => validateSchema(schema), [schema]);
 
@@ -48,6 +52,7 @@ export function useEdges(args: UseEdgesArgs) {
 
     const addNode = useCallback((type: NodeType) => {
         const idx = schema.nodes.length;
+
         const node: DiagramNode = {
             id: uid(),
             type,
@@ -57,7 +62,8 @@ export function useEdges(args: UseEdgesArgs) {
 
         setSchema((prev) => ({ ...prev, nodes: [...prev.nodes, node] }));
         selectNode(node.id);
-    }, [schema.nodes.length, selectNode]);
+    }, [schema.nodes.length, selectNode, setSchema]);
+
 
     const renameNode = useCallback((nodeId: string, name: string) => {
         setSchema((prev) => ({
@@ -308,6 +314,12 @@ export function useEdges(args: UseEdgesArgs) {
         setSchema,
         issues,
         nodeIdWithError,
+
+        undo: history.undo,
+        redo: history.redo,
+        canUndo: history.canUndo,
+        canRedo: history.canRedo,
+        resetHistory: history.reset,
 
         isConnectMode,
         setIsConnectMode,

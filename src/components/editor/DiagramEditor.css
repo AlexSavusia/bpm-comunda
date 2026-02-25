@@ -1,7 +1,7 @@
 .de {
     height: calc(100vh - 64px);
     display: grid;
-    grid-template-columns: 260px 1fr 340px;
+    grid-template-columns: 380px 1fr 320px;
     background: #f8fafc;
     color: #111827;
     font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
@@ -62,7 +62,9 @@
 }
 
 .segmented {
-    display: inline-flex;
+    display: flex;
+    justify-content: space-between;
+    width: fit-content;
     border: 1px solid #e5e7eb;
     border-radius: 10px;
     overflow: hidden;
