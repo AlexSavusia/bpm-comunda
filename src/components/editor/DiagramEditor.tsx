@@ -92,11 +92,6 @@ export default function DiagramEditor() {
     }, [selectedKey]);
 
 
-    useEffect(() => {
-        console.log("schema nodes:", edges.schema.nodes.length, edges.schema.nodes);
-    }, [edges.schema]);
-
-
     return (
         <div className="de">
             {/* LEFT */}

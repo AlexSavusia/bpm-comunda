@@ -29,10 +29,31 @@ export function apiDefinitionToDiagramSchema(def: ApiProcessDefinition): Diagram
         id: f.id,
         from: f.fromNodeId,
         to: f.toNodeId,
+        mainFlow: f.mainFlow ?? true,
+        condition: (f.condition ?? ""),
         waypoints: coordsToWaypoints(f.coordinates),
     }));
 
     return { nodes, edges };
+}
+
+function pickRootNodeId(schema: DiagramSchema, fallback?: string) {
+    // 1) Явная startEvent
+    const start = schema.nodes.find((n) => n.type === "startEvent");
+    if (start) return start.id;
+
+    // 2) Если startEvent не проставлен/не пришёл — нода без входящих ребер
+    const incoming = new Set<string>();
+    for (const e of schema.edges) incoming.add(e.to);
+
+    const noIncoming = schema.nodes.find((n) => !incoming.has(n.id));
+    if (noIncoming) return noIncoming.id;
+
+    // 3) Fallback
+    if (fallback) return fallback;
+
+    // 4) В крайнем случае
+    return schema.nodes[0]?.id ?? crypto.randomUUID();
 }
 
 /** DiagramSchema -> ApiProcessDefinition */
@@ -41,16 +62,13 @@ export function diagramSchemaToApiDefinition(schema: DiagramSchema, rootNodeId?:
         const backendKey = n.nodeKey;
         if (!backendKey) throw new Error("nodeKey missing");
 
-
         return {
             key: backendKey,
             id: n.id,
             name: n.name,
             description: "",
-
             coordinate: { x: n.position.x, y: n.position.y },
-
-            template: { key: n.templateKey ?? "template_noop", properties: n.templateProps ?? {} },
+            template: { key: n.templateKey ?? "", properties: n.templateProps ?? {} },
             actionType: backendKey,
         };
     });
@@ -65,7 +83,7 @@ export function diagramSchemaToApiDefinition(schema: DiagramSchema, rootNodeId?:
     }));
 
     return {
-        rootNodeId: rootNodeId ?? schema.nodes[0]?.id ?? crypto.randomUUID(),
+        rootNodeId: pickRootNodeId(schema, rootNodeId),
         nodes,
         flows,
     };

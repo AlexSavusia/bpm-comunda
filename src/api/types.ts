@@ -27,6 +27,7 @@ export type ApiProcessFlow = {
     fromNodeId: Uuid;
     toNodeId: Uuid;
     coordinates?: ApiCoordinate[];
+    condition?: string;
     mainFlow: boolean;
 };
 
