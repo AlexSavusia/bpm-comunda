@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, useCallback } from "react";
+import {  useMemo, useRef, useState, useCallback } from "react";
 import type { Point } from "../utils/geometry";
 
 type ViewportOptions = {
@@ -17,26 +17,9 @@ export function useViewport(opts: ViewportOptions = {}) {
     const [zoom, setZoom] = useState(1);
     const [pan, setPan] = useState<Point>({ x: 0, y: 0 });
 
-    const [panMode, setPanMode] = useState(false);
+    const [panMode] = useState(false);
     const [panStart, setPanStart] = useState<Point | null>(null);
 
-    useEffect(() => {
-        const down = (e: KeyboardEvent) => {
-            if (e.code === "Space") {
-                e.preventDefault();
-                setPanMode(true);
-            }
-        };
-        const up = (e: KeyboardEvent) => {
-            if (e.code === "Space") setPanMode(false);
-        };
-        window.addEventListener("keydown", down);
-        window.addEventListener("keyup", up);
-        return () => {
-            window.removeEventListener("keydown", down);
-            window.removeEventListener("keyup", up);
-        };
-    }, []);
 
     const getWorldPoint = useCallback(
         (e: React.MouseEvent<Element> | React.WheelEvent<Element>): Point => {

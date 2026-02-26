@@ -50,7 +50,6 @@ export default function HotkeysHelp({ t }: Props) {
         "undo",
         "redo",
         "reset",
-        "pan",
         "zoom",
         "clearSelection",
         "delete",
