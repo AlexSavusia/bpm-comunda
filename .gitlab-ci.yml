@@ -41,5 +41,4 @@ deploy:
 
     - docker rm -f $CONTAINER_NAME
     - docker run --name $CONTAINER_NAME -d --restart=always -p127.0.0.1:${APP_PORT}:80 "$IMAGE:$TAG"
-    - docker network connect bridge "$CONTAINER_NAME"
     - docker image prune -f
