@@ -281,16 +281,26 @@ export default function InspectorPanel({
                                 addableProps.length > 0 ? (
                                     <select
                                         className="insp__input"
-                                        value=""
+                                        value={selectedTemplateKey ?? ""}
                                         onChange={(e) => {
-                                            const k = e.target.value;
-                                            if (!k) return;
+                                            const v = e.target.value;
+                                            const nextKey = v ? v : null;
 
+                                            onSetNodeTemplate(selectedNode.id, nextKey);
 
-                                            onSetNodeTemplateProp(selectedNode.id, k, "");
+                                            if (nextKey) {
+                                                const tpl = allowedTemplates.find((t) => t.key === nextKey);
+                                                if (tpl) {
+                                                    for (const p of tpl.properties) {
+                                                        if (!p.required) continue;
 
-
-                                            e.currentTarget.value = "";
+                                                        const current = (selectedNode.templateProps ?? {})[p.key];
+                                                        if (current === undefined) {
+                                                            onSetNodeTemplateProp(selectedNode.id, p.key, "");
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }}
                                     >
                                         <option value="" disabled>
