@@ -17,7 +17,7 @@ export class ProcessApi {
 
     /** GET /admin/v1/process */
     getProcesses(params: GetProcessesParams = {}) {
-        return this.http.request<PageResponse<ApiProcess>>("GET", "/api/admin/v1/process", {
+        return this.http.request<PageResponse<ApiProcess>>("GET", "/admin/v1/process", {
             query: {
                 page: params.page ?? 20,
                 size: params.size ?? 20,
@@ -30,20 +30,20 @@ export class ProcessApi {
      * Судя по Swagger — принимает FULL Process object (setId, version, createdAt, ...)
      */
     putProcess(process: ApiProcess) {
-        return this.http.request<ApiProcess>("PUT", "/api/admin/v1/process", { body: process });
+        return this.http.request<ApiProcess>("PUT", "/admin/v1/process", { body: process });
     }
 
     /** PATCH /admin/v1/process/{id} */
     patchProcess(id: Uuid, body: PatchProcessBody) {
-        return this.http.request<ApiProcess>("PATCH", `/api/admin/v1/process/${id}`, { body });
+        return this.http.request<ApiProcess>("PATCH", `/admin/v1/process/${id}`, { body });
     }
 
     /** DELETE /admin/v1/process/{id} */
         deleteProcess(id: Uuid) {
-        return this.http.request<void>("DELETE", `/api/admin/v1/process/${id}`);
+        return this.http.request<void>("DELETE", `/admin/v1/process/${id}`);
     }
 
     createProcess(body: ApiProcessDraft) {
-        return this.http.request<ApiProcess>("PUT", "/api/admin/v1/process", { body });
+        return this.http.request<ApiProcess>("PUT", "/admin/v1/process", { body });
     }
 }

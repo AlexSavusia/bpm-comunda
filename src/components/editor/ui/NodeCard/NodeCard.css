@@ -1,70 +1,70 @@
 .node {
     position: absolute;
-    box-sizing: border-box;
-    border-radius: 10px;
-    border: 1px solid #d1d5db;
-    background: #ffffff;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: grab;
     user-select: none;
+    cursor: pointer;
 
-    transition:
-            box-shadow 120ms ease,
-            border-color 120ms ease,
-            transform 80ms ease;
+    display: grid;
+    place-items: center;
+
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
-.node:hover {
-    border-color: #c7d2fe;
-    box-shadow: 0 4px 14px rgba(17, 24, 39, 0.08);
+
+.node--square {
+    /* размеры задаются inline стилем */
 }
 
 .node--selected {
-    border: 2px solid #2563eb;
-    box-shadow: 0 8px 22px rgba(37, 99, 235, 0.22);
+    outline: 2px solid rgba(0, 120, 255, 0.75);
+    outline-offset: 2px;
 }
 
 .node--dragging {
     cursor: grabbing;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+    opacity: 0.9;
 }
 
 .node--error {
-    border-color: #ef4444;
+    border-color: rgba(255, 0, 0, 0.35);
 }
 
+/* бейдж ошибки */
 .node__badge {
     position: absolute;
-    top: -6px;
-    right: -6px;
+    right: 6px;
+    top: 6px;
 
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
 
-    background: #ef4444;
-    color: #fff;
+    display: grid;
+    place-items: center;
 
-    font-size: 11px;
-    font-weight: 700;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    background: rgba(255, 0, 0, 0.12);
+    color: #b00020;
 }
 
-.nodeLabel {
-    position: absolute;
-    top: 60px;
-    width: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 11px;
-    text-align: center;
-    color: #374151;
-    pointer-events: none;
+/* SVG как в palette */
+.node__svg {
+    width: 22px;
+    height: 22px;
 }
 
+/* цвет и “акцент” по типу (можешь подогнать под palette.css) */
+.node--event {
+    color: #0b6;
+}
+.node--task {
+    color: #06c;
+}
+.node--gateway {
+    color: #a0a;
+}
+.node--other {
+    color: #444;
+}

@@ -9,6 +9,6 @@ export class MetadataApi {
     }
 
     getMetadata() {
-        return this.http.request<MetadataResponse>("GET", "/api/admin/v1/metadata");
+        return this.http.request<MetadataResponse>("GET", "/admin/v1/metadata");
     }
 }

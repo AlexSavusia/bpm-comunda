@@ -62,13 +62,18 @@ export function diagramSchemaToApiDefinition(schema: DiagramSchema, rootNodeId?:
         const backendKey = n.nodeKey;
         if (!backendKey) throw new Error("nodeKey missing");
 
+        const hasTemplate = Boolean(n.templateKey);
+
         return {
             key: backendKey,
             id: n.id,
             name: n.name,
             description: "",
             coordinate: { x: n.position.x, y: n.position.y },
-            template: { key: n.templateKey ?? "", properties: n.templateProps ?? {} },
+            template: hasTemplate
+                ? { key: n.templateKey!, properties: n.templateProps ?? {} }
+                : undefined,
+
             actionType: backendKey,
         };
     });
