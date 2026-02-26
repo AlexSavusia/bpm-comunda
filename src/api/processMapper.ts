@@ -72,7 +72,7 @@ export function diagramSchemaToApiDefinition(schema: DiagramSchema, rootNodeId?:
             coordinate: { x: n.position.x, y: n.position.y },
             template: hasTemplate
                 ? { key: n.templateKey!, properties: n.templateProps ?? {} }
-                : undefined,
+                : null,
 
             actionType: backendKey,
         };

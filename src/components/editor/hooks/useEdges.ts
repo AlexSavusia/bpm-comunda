@@ -73,7 +73,7 @@ export function useEdges(args: UseEdgesArgs) {
             nodeKey: descriptorKey,
             name: descriptorName,
             position: { x: 40 + (idx % 3) * 200, y: 40 + Math.floor(idx / 3) * 120 },
-            templateKey: "template_noop",
+            templateKey: null,
             templateProps: {},
         };
 
@@ -89,12 +89,16 @@ export function useEdges(args: UseEdgesArgs) {
         }));
     }, []);
 
-    const setNodeTemplate = useCallback((nodeId: string, templateKey: string) => {
+    const setNodeTemplate = useCallback((nodeId: string, templateKey: string | null) => {
         setSchema((prev) => ({
             ...prev,
             nodes: prev.nodes.map((n) =>
                 n.id === nodeId
-                    ? { ...n, templateKey, templateProps: n.templateProps ?? {} }
+                    ? {
+                        ...n,
+                        templateKey,                 // ✅ string | null
+                        templateProps: templateKey ? (n.templateProps ?? {}) : {}, // ✅ сброс если null
+                    }
                     : n
             ),
         }));

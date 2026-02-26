@@ -27,7 +27,7 @@ type Props = {
 
     templates: MetadataTemplate[];
 
-    onSetNodeTemplate: (nodeId: string, templateKey: string) => void;
+    onSetNodeTemplate: (nodeId: string, templateKey: string | null) => void;
     onSetNodeTemplateProp: (nodeId: string, propKey: string, value: any) => void;
 
     onSetEdgeMainFlow: (edgeId: string, value: boolean) => void;
@@ -102,8 +102,11 @@ export default function InspectorPanel({
         ? templates.filter((tpl) => matchesNodeKey(tpl.nodeKey, nodeKey))
         : [];
 
-    const selectedTemplateKey = selectedNode?.templateKey ?? "template_noop";
-    const selectedTemplate = allowedTemplates.find((t) => t.key === selectedTemplateKey) ?? null;
+    const selectedTemplateKey = selectedNode?.templateKey ?? null;
+    const selectedTemplate =
+        selectedTemplateKey
+            ? (allowedTemplates.find((t) => t.key === selectedTemplateKey) ?? null)
+            : null;
 
     const templateProps = selectedNode?.templateProps ?? {};
 
@@ -248,9 +251,14 @@ export default function InspectorPanel({
                             <div className="insp__label">Template</div>
                             <select
                                 className="insp__input"
-                                value={selectedTemplateKey}
-                                onChange={(e) => onSetNodeTemplate(selectedNode.id, e.target.value)}
+                                value={selectedTemplateKey ?? ""}        // ✅ null -> ""
+                                onChange={(e) => {
+                                    const v = e.target.value;
+                                    onSetNodeTemplate(selectedNode.id, v ? v : null); // ✅ "" -> null
+                                }}
                             >
+                                <option value="">— None —</option>
+
                                 {allowedTemplates.map((tpl) => (
                                     <option key={tpl.key} value={tpl.key}>
                                         {tpl.name}

@@ -16,7 +16,7 @@ export type DiagramNode = {
     nodeKey?: string;
     name: string;
     position: { x: number; y: number };
-    templateKey?: string;
+    templateKey?: string | null;
     templateProps?: Record<string, any>;
 };
 

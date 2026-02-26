@@ -15,10 +15,7 @@ export type ApiProcessNode = {
     name: string;
     description?: string;
     coordinate: ApiCoordinate;
-    template?: {
-        key: string;
-        properties: Record<string, any>;
-    };
+    template?: { key: string; properties: Record<string, any> } | null;
     actionType: string;
 };
 
@@ -27,7 +24,7 @@ export type ApiProcessFlow = {
     fromNodeId: Uuid;
     toNodeId: Uuid;
     coordinates?: ApiCoordinate[];
-    condition?: string;
+    condition?: string | null;
     mainFlow: boolean;
 };
 
