@@ -43,7 +43,7 @@ export class ProcessApi {
         return this.http.request<void>("DELETE", `/api/admin/v1/process/${id}`);
     }
 
-    createProcess(body: ApiProcessDraft) {
+    createProcess(body: PatchProcessBody) {
         return this.http.request<ApiProcess>("PUT", "/api/admin/v1/process", { body });
     }
 }
