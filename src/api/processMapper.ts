@@ -63,7 +63,6 @@ export function diagramSchemaToApiDefinition(schema: DiagramSchema, rootNodeId?:
         if (!backendKey) throw new Error("nodeKey missing");
         const key = (n.templateKey ?? null);
 
-        if (n.templateKey === "") console.warn("templateKey is empty string for node", n.id);
         return {
             key: backendKey,
             id: n.id,

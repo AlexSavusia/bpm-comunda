@@ -69,13 +69,6 @@ export function useProcesses() {
             setError(null);
 
             try {
-                console.log("[saveFromDiagram] schema nodes templates", schema.nodes.map(n => ({
-                    id: n.id,
-                    nodeKey: n.nodeKey,
-                    templateKey: n.templateKey,
-                    templateProps: n.templateProps,
-                    templatePropsKeys: n.templateProps ? Object.keys(n.templateProps) : null,
-                })));
                 const processDefinition = diagramSchemaToApiDefinition(schema, selected.processDefinition.rootNodeId);
 
                 const patchBody = {
@@ -88,12 +81,7 @@ export function useProcesses() {
                 const saved =
                     "setId" in selected
                         ? await processApi.patchProcess(selected.setId, patchBody)
-                        : await processApi.createProcess({
-                            name: patchMeta?.name ?? selected.name ?? "New process",
-                            description: patchMeta?.description ?? selected.description ?? "",
-                            active: patchMeta?.active ?? selected.active ?? true,
-                            processDefinition,
-                        });
+                        : await processApi.createProcess(patchBody);
 
                 setSelected(saved);
 

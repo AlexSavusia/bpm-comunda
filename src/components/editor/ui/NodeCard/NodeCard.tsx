@@ -18,7 +18,8 @@ type Props = {
 function Icon({ kind }: { kind: string }) {
     const k = kind.toLowerCase();
 
-    if ( k === "start") {
+    console.log(k);
+    if ( k === "start" || k === "startevent") {
         return (
             <svg viewBox="0 0 24 24" className="node__svg" aria-hidden="true">
                 <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -27,7 +28,7 @@ function Icon({ kind }: { kind: string }) {
         );
     }
 
-    if (k === "end") {
+    if (k === "end" || k === "endevent") {
         return (
             <svg viewBox="0 0 24 24" className="node__svg" aria-hidden="true">
                 <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -36,7 +37,7 @@ function Icon({ kind }: { kind: string }) {
         );
     }
 
-    if (k === "service task") {
+    if (k === "service task" || k === "task") {
         return (
             <svg viewBox="0 0 24 24" className="node__svg" aria-hidden="true">
                 <rect x="5" y="7" width="14" height="10" rx="2" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -45,7 +46,7 @@ function Icon({ kind }: { kind: string }) {
         );
     }
 
-    if (k === "exclusive gateway") {
+    if (k === "exclusive gateway" || k === "exclusivegateway") {
         return (
             <svg viewBox="0 0 24 24" className="node__svg" aria-hidden="true">
                 <path
@@ -69,10 +70,10 @@ function Icon({ kind }: { kind: string }) {
 
 function typeClass(t: string) {
     const k = t.toLowerCase();
-    if (k === "end") return "node--end";
-    if (k === "start") return "node--start";
-    if (k === "service task") return "node--task";
-    if (k === "exclusive gateway") return "node--gateway";
+    if (k === "end" || k === "endevent") return "node--end";
+    if (k === "start"  || k === "startevent") return "node--start";
+    if (k === "service task" || k === "task") return "node--task";
+    if (k === "exclusive gateway" || k === "exclusivegateway") return "node--gateway";
     return "node--other";
 }
 

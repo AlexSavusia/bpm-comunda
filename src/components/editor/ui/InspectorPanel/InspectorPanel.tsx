@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import type { ChangeEvent } from "react";
 import type { DiagramEdge, DiagramNode, ValidationIssue } from "../../../../types/schema";
 import type { MetadataTemplate } from "../../../../api/metadataTypes";
@@ -108,34 +107,9 @@ export default function InspectorPanel({
             ? (allowedTemplates.find((t) => t.key === selectedTemplateKey) ?? null)
             : null;
 
-    const templateProps = selectedNode?.templateProps ?? {};
 
     const availableProps = selectedTemplate?.properties ?? [];
 
-
-    const enabledPropKeys = useMemo(() => new Set(Object.keys(templateProps)), [templateProps]);
-
-
-    const requiredPropKeys = useMemo(() => {
-        return new Set(availableProps.filter((p) => p.required).map((p) => p.key));
-    }, [availableProps]);
-
-
-    const addableProps = useMemo(() => {
-        return availableProps.filter((p) => !enabledPropKeys.has(p.key));
-    }, [availableProps, enabledPropKeys]);
-
-    const renderedProps = useMemo(() => {
-        const keys = new Set<string>();
-        for (const k of enabledPropKeys) keys.add(k);
-        for (const k of requiredPropKeys) keys.add(k);
-
-
-        return availableProps.filter((p) => keys.has(p.key));
-    }, [availableProps, enabledPropKeys, requiredPropKeys]);
-    console.log("selectedTemplate", selectedTemplateKey, selectedTemplate);
-    console.log("availableProps", availableProps);
-    console.log("required", availableProps.filter(p => p.required).map(p => p.key));
 
     return (
         <div className="insp">
@@ -277,118 +251,64 @@ export default function InspectorPanel({
                     )}
 
                     {/* Template properties */}
-                    {selectedTemplate && availableProps.length > 0 ? (
-                        <Section
-                            title="Properties"
-                            right={
-                                addableProps.length > 0 ? (
-                                    <select
-                                        className="insp__input"
-                                        value=""
-                                        onChange={(e) => {
-                                            const v = e.target.value;
-                                            const nextKey = v ? v : null;
+                    {/* Template properties: always render inputs from metadata */}
+                    {selectedTemplate ? (
+                        availableProps.length === 0 ? (
+                            <div className="insp__hint">This template has no properties</div>
+                        ) : (
+                            <Section title="Properties">
+                                {availableProps.map((p) => {
+                                    const v = (selectedNode.templateProps ?? {})[p.key] ?? "";
+                                    const isTextArea = p.key === "body";
 
-                                            onSetNodeTemplate(selectedNode.id, nextKey);
-
-                                            if (nextKey) {
-                                                const req = (allowedTemplates.find(t => t.key === nextKey)?.properties ?? [])
-                                                    .filter(p => p.required)
-                                                    .map(p => p.key);
-
-                                                for (const k of req) {
-                                                    onSetNodeTemplateProp(selectedNode.id, k, (selectedNode.templateProps ?? {})[k] ?? "");
-                                                }
-                                            }
-                                        }}
-                                    >
-                                        <option value="" disabled>
-                                            + Add property
-                                        </option>
-                                        {addableProps.map((p) => (
-                                            <option key={p.key} value={p.key}>
+                                    return (
+                                        <label className="insp__field" key={p.key}>
+                                            <div className="insp__label">
                                                 {p.key}
-                                            </option>
-                                        ))}
-                                    </select>
-                                ) : null
-                            }
-                        >
-                            {renderedProps.length === 0 ? (
-                                <div className="insp__hint">No properties enabled</div>
-                            ) : (
-                                <>
-                                    {/* Chips row (что включено) */}
-                                    <div className="insp__chips">
-                                        {renderedProps.map((p) => {
-                                            const isReq = p.required;
+                                                {p.required ? <span className="insp__req">*</span> : null}
+                                                {p.secret ? (
+                                                    <span className="insp__pill insp__pill--amber" style={{ marginLeft: 8 }}>
+                  secret
+                </span>
+                                                ) : null}
+                                            </div>
 
-                                            return (
-                                                <span key={p.key} className="insp__chip">
-                {p.key}
-                                                    {isReq ? <span className="insp__req"> *</span> : null}
+                                            {isTextArea ? (
+                                                <textarea
+                                                    className="insp__input"
+                                                    rows={4}
+                                                    value={String(v)}
+                                                    placeholder={p.description}
+                                                    onChange={(e) => onSetNodeTemplateProp(selectedNode.id, p.key, e.target.value)}
+                                                />
+                                            ) : (
+                                                <input
+                                                    className="insp__input"
+                                                    value={String(v)}
+                                                    placeholder={p.description}
+                                                    onChange={(e) => onSetNodeTemplateProp(selectedNode.id, p.key, e.target.value)}
+                                                />
+                                            )}
 
-                                                    {/* required не даём отключать */}
-                                                    {!isReq ? (
-                                                        <button
-                                                            type="button"
-                                                            className="insp__chipX"
-                                                            title="Remove"
-                                                            onClick={() => {
-                                                                onSetNodeTemplateProp(selectedNode.id, p.key, undefined);
-                                                            }}
-                                                        >
-                                                            ×
-                                                        </button>
-                                                    ) : null}
-              </span>
-                                            );
-                                        })}
-                                    </div>
+                                            {p.description ? <div className="insp__hint">{p.description}</div> : null}
 
-                                    {/* Inputs только для enabled */}
-                                    <div style={{ marginTop: 10 }}>
-                                        {renderedProps.map((p) => {
-                                            const v = (selectedNode.templateProps ?? {})[p.key] ?? "";
-                                            const isTextArea = p.key === "body";
-
-                                            return (
-                                                <label className="insp__field" key={p.key}>
-                                                    <div className="insp__label">
-                                                        {p.key}
-                                                        {p.required ? <span className="insp__req">*</span> : null}
-                                                        {p.secret ? (
-                                                            <span className="insp__pill insp__pill--amber" style={{ marginLeft: 8 }}>
-                      secret
-                    </span>
-                                                        ) : null}
-                                                    </div>
-
-                                                    {isTextArea ? (
-                                                        <textarea
-                                                            className="insp__input"
-                                                            rows={4}
-                                                            value={String(v)}
-                                                            placeholder={p.description}
-                                                            onChange={(e) => onSetNodeTemplateProp(selectedNode.id, p.key, e.target.value)}
-                                                        />
-                                                    ) : (
-                                                        <input
-                                                            className="insp__input"
-                                                            value={String(v)}
-                                                            placeholder={p.description}
-                                                            onChange={(e) => onSetNodeTemplateProp(selectedNode.id, p.key, e.target.value)}
-                                                        />
-                                                    )}
-                                                </label>
-                                            );
-                                        })}
-                                    </div>
-                                </>
-                            )}
-                        </Section>
+                                            {/* optional remove button for non-required */}
+                                            {!p.required ? (
+                                                <button
+                                                    type="button"
+                                                    className="insp__ghostBtn"
+                                                    onClick={() => onSetNodeTemplateProp(selectedNode.id, p.key, undefined)}
+                                                    title="Remove"
+                                                >
+                                                    Remove
+                                                </button>
+                                            ) : null}
+                                        </label>
+                                    );
+                                })}
+                            </Section>
+                        )
                     ) : null}
-
                     <div className="insp__btnRow">
                         <button
                             className="insp__btn insp__btn--danger"

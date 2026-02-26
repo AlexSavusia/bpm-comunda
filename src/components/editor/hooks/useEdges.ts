@@ -6,7 +6,6 @@ import { dist2, projectToSegment, snapPoint } from "../utils/geometry";
 import { useHistoryState } from "./history/useHistoryState";
 import type { MetadataTemplate } from "../../../api/metadataTypes";
 
-
 const NODE_W = 160;
 const NODE_H = 56;
 
@@ -35,7 +34,7 @@ type UseEdgesArgs = {
 };
 
 export function useEdges(args: UseEdgesArgs) {
-    const { getWorldPoint, isSnapEnabled, gridSize, selectNode, selectEdge, selectedEdgeId } = args;
+    const { getWorldPoint, isSnapEnabled, gridSize, selectNode, selectEdge, selectedEdgeId, templates } = args;
 
     const history = useHistoryState<DiagramSchema>(initialSchema, { limit: 200 });
 
@@ -92,61 +91,44 @@ export function useEdges(args: UseEdgesArgs) {
         }));
     }, []);
 
-    // function safeRegexTest(pattern: string, value: string) {
-    //     try { return new RegExp(pattern).test(value); } catch { return false; }
-    // }
-    //
-    // function getTemplateByKey(templates: MetadataTemplate[], nodeKey: string, templateKey: string) {
-    //     const allowed = templates.filter(t => safeRegexTest(t.nodeKey, nodeKey));
-    //     return allowed.find(t => t.key === templateKey) ?? null;
-    // }
-    //
-    // function ensureRequiredProps(
-    //     tpl: MetadataTemplate,
-    //     current: Record<string, any> | undefined
-    // ) {
-    //     const next: Record<string, any> = { ...(current ?? {}) };
-    //     const props = tpl.properties ?? [];
-    //     for (const p of props) {
-    //         if (!p.required) continue;
-    //         if (!(p.key in next)) next[p.key] = ""; // можно заменить на p.default если он есть
-    //     }
-    //     return next;
-    // }
+    function safeRegexTest(pattern: string, value: string) {
+        try { return new RegExp(pattern).test(value); } catch { return false; }
+    }
 
-    const setNodeTemplate = useCallback(
-        (nodeId: string, templateKey: string | null) => {
-            setSchema((prev) => ({
-                ...prev,
-                nodes: prev.nodes.map((n) => {
-                    if (n.id !== nodeId) return n;
+    function ensureRequiredProps(tpl: MetadataTemplate, current?: Record<string, any>) {
+        const next: Record<string, any> = { ...(current ?? {}) };
+        for (const p of tpl.properties ?? []) {
+            if (!p.required) continue;
+            if (!(p.key in next)) next[p.key] = "";
+        }
+        return next;
+    }
 
-                    if (!templateKey) {
-                        return { ...n, templateKey: null, templateProps: {} };
-                    }
+    const setNodeTemplate = useCallback((nodeId: string, templateKey: string | null) => {
+        setSchema((prev) => ({
+            ...prev,
+            nodes: prev.nodes.map((n) => {
+                if (n.id !== nodeId) return n;
 
-                    // если ключ не меняется — ничего не трогаем
-                    if (n.templateKey === templateKey) return n;
+                if (!templateKey) return { ...n, templateKey: null, templateProps: {} };
+                if (n.templateKey === templateKey) return n;
 
-                    // const nodeKey = n.nodeKey ?? "";
-                    // const tpl = getTemplateByKey(args.templates, nodeKey, templateKey);
+                const nodeKey = n.nodeKey ?? "";
+                const allowed = templates.filter(t => safeRegexTest(t.nodeKey, nodeKey));
+                const tpl = allowed.find(t => t.key === templateKey) ?? null;
 
-                    // const nextProps = tpl
-                    //     ? ensureRequiredProps(tpl, n.templateProps)
-                    //     : (n.templateProps ?? {});
-
-                    return { ...n, templateKey, templateProps: { ...(n.templateProps ?? {}), __test: "1" } };
-                }),
-            }));
-        },
-        [setSchema, args.templates]
-    );
+                const nextProps = tpl ? ensureRequiredProps(tpl, n.templateProps) : (n.templateProps ?? {});
+                return { ...n, templateKey, templateProps: nextProps };
+            }),
+        }));
+    }, [setSchema, templates]);
 
     const setNodeTemplateProp = useCallback((nodeId: string, propKey: string, value: any) => {
         setSchema((prev) => ({
             ...prev,
             nodes: prev.nodes.map((n) => {
                 if (n.id !== nodeId) return n;
+
                 const nextProps = { ...(n.templateProps ?? {}) };
 
                 if (value === undefined) {

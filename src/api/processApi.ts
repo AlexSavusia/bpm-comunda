@@ -1,4 +1,4 @@
-import type { ApiProcess, ApiProcessDraft, PageResponse, Uuid } from "./types";
+import type { ApiProcess, PageResponse, Uuid } from "./types";
 import { HttpClient } from "./http";
 
 export type GetProcessesParams = {
