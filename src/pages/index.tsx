@@ -1,5 +1,5 @@
+import DiagramEditor from "../components/editor";
+
 export default function IndexPage() {
-    return (
-        <p>ima index</p>
-    )
+    return <DiagramEditor />;
 }

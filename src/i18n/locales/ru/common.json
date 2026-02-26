@@ -1,0 +1,107 @@
+{
+  "editor": {
+
+    "palette": "Палитра",
+    "canvas": "Холст",
+    "properties": "Свойства",
+
+    "addStart": "+ Старт",
+    "addTask": "+ Задача",
+    "addGateway": "+ Шлюз",
+    "addEnd": "+ Конец",
+
+    "connectMode": "Режим соединения",
+    "snapToGrid": "Привязка к сетке",
+    "grid8": "8px",
+    "grid16": "16px",
+    "tipAlt": "Подсказка: удерживай Alt для свободного перемещения",
+    "zoomTip": "Масштаб",
+
+    "selectElement": "Выбери элемент",
+    "deleteNode": "Удалить ноду",
+    "deleteEdge": "Удалить стрелку",
+    "deleteWaypoint": "Удалить точку",
+
+    "waypoint": "Точка",
+    "edge": "Стрелка",
+    "node": "Нода",
+    "undo": "Вернуть",
+    "redo": "Восстановить",
+    "from": "От",
+    "to": "К",
+
+    "inspector": "Инспектор",
+    "clearSelection": "Очистить выделение",
+    "clear": "Очистить",
+
+    "index": "Индекс",
+    "close": "Закрыть",
+
+    "type": "Тип",
+    "name": "Название",
+    "namePlaceholder": "Введите название…",
+
+    "problems": "Проблемы",
+    "noIssues": "Ошибок нет",
+
+    "nothingSelected": "Ничего не выбрано",
+    "nothingSelectedHint": "Кликни по ноде, стрелке или точке, чтобы увидеть параметры.",
+    "hotkeys": {
+      "title": "Горячие клавиши",
+
+      "undo": { "keys": "Ctrl/Cmd + Z", "desc": "Отменить" },
+      "redo": { "keys": "Ctrl/Cmd + Shift + Z / Ctrl + Y", "desc": "Повторить" },
+      "reset": { "keys": "Ctrl/Cmd + 0", "desc": "Сбросить зум/пан" },
+
+      "pan": { "keys": "Space + Drag", "desc": "Панорама" },
+      "zoom": { "keys": "Ctrl/Cmd + Wheel", "desc": "Масштаб" },
+
+      "clearSelection": { "keys": "Esc", "desc": "Снять выделение" },
+      "delete": { "keys": "Del / Backspace", "desc": "Удалить выбранное (точка → стрелка → нода)" },
+
+      "altBypassSnap": { "keys": "Alt", "desc": "Игнорировать привязку к сетке" },
+      "addWaypoint": { "keys": "Alt + Click", "desc": "Добавить точку на стрелке" }
+    },
+
+    "mouseDrag": "Drag",
+    "mouseClick": "Click",
+    "hk": {
+      "pan": "Панорама",
+      "zoom": "Зум",
+      "resetViewport": "Сброс zoom/pan",
+      "clearSelection": "Снять выделение",
+      "deleteSelected": "Удалить выбранное (точка → стрелка → нода)",
+      "altBypassSnap": "Игнорировать привязку к сетке",
+      "addWaypoint": "Добавить точку на стрелке"
+    }
+  },
+  "validation": {
+    "edgeInvalidFrom": "Стрелка \"{{edgeId}}\" ссылается на несуществующую ноду \"{{nodeId}}\" (from)",
+    "edgeInvalidTo": "Стрелка \"{{edgeId}}\" ссылается на несуществующую ноду \"{{nodeId}}\" (to)",
+
+    "noStart": "Нет стартовой ноды. Добавь ровно одну Start.",
+    "tooManyStarts": "Слишком много стартовых нод ({{count}}). Должна быть ровно одна.",
+    "noEnd": "Нет конечной ноды. Добавь хотя бы одну End.",
+
+    "startHasIncoming": "Стартовая нода не может иметь входящие связи.",
+    "endHasOutgoing": "Конечная нода не может иметь исходящие связи.",
+
+    "noIncoming": "Нода \"{{name}}\" не имеет входящих связей.",
+    "noOutgoing": "Нода \"{{name}}\" не имеет исходящих связей."
+  },
+  "palette": {
+    "events": "Events",
+    "tasks": "Tasks",
+    "gateways": "Gateways",
+
+    "startEvent": "Start event",
+    "intermediateThrowEvent": "Intermediate throw event",
+    "endEvent": "End event",
+
+    "task": "Task",
+
+    "exclusiveGateway": "Exclusive gateway",
+    "parallelGateway": "Parallel gateway",
+    "eventBasedGateway": "Event-based gateway"
+  }
+}

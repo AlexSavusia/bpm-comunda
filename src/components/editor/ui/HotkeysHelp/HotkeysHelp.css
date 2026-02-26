@@ -1,0 +1,92 @@
+.hk {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 12px;
+    display: grid;
+    gap: 10px;
+}
+
+.hk__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.hk__title {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.hk__hint {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+.hk__list {
+    display: grid;
+    gap: 8px;
+}
+
+.hk__row {
+    display: grid;
+    grid-template-columns: 170px 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.hk__keysCol {
+    min-width: 0;
+}
+
+.hk__keysWrap {
+    display: flex;
+    min-width: 0;
+}
+
+.hk__keys {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.hk__sep {
+    font-size: 12px;
+    color: #9ca3af;
+    line-height: 16px;
+    user-select: none;
+}
+
+.hk__or {
+    font-size: 12px;
+    color: #9ca3af;
+    line-height: 16px;
+    user-select: none;
+}
+
+.hk__desc {
+    font-size: 12px;
+    color: #374151;
+    line-height: 16px;
+}
+
+.kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 7px;
+    border: 1px solid #e5e7eb;
+    border-bottom-color: #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 12px;
+    line-height: 16px;
+    color: #111827;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04);
+    user-select: none;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
