@@ -133,6 +133,9 @@ export default function InspectorPanel({
 
         return availableProps.filter((p) => keys.has(p.key));
     }, [availableProps, enabledPropKeys, requiredPropKeys]);
+    console.log("selectedTemplate", selectedTemplateKey, selectedTemplate);
+    console.log("availableProps", availableProps);
+    console.log("required", availableProps.filter(p => p.required).map(p => p.key));
 
     return (
         <div className="insp">

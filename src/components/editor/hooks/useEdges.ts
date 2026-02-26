@@ -92,27 +92,27 @@ export function useEdges(args: UseEdgesArgs) {
         }));
     }, []);
 
-    function safeRegexTest(pattern: string, value: string) {
-        try { return new RegExp(pattern).test(value); } catch { return false; }
-    }
-
-    function getTemplateByKey(templates: MetadataTemplate[], nodeKey: string, templateKey: string) {
-        const allowed = templates.filter(t => safeRegexTest(t.nodeKey, nodeKey));
-        return allowed.find(t => t.key === templateKey) ?? null;
-    }
-
-    function ensureRequiredProps(
-        tpl: MetadataTemplate,
-        current: Record<string, any> | undefined
-    ) {
-        const next: Record<string, any> = { ...(current ?? {}) };
-        const props = tpl.properties ?? [];
-        for (const p of props) {
-            if (!p.required) continue;
-            if (!(p.key in next)) next[p.key] = ""; // можно заменить на p.default если он есть
-        }
-        return next;
-    }
+    // function safeRegexTest(pattern: string, value: string) {
+    //     try { return new RegExp(pattern).test(value); } catch { return false; }
+    // }
+    //
+    // function getTemplateByKey(templates: MetadataTemplate[], nodeKey: string, templateKey: string) {
+    //     const allowed = templates.filter(t => safeRegexTest(t.nodeKey, nodeKey));
+    //     return allowed.find(t => t.key === templateKey) ?? null;
+    // }
+    //
+    // function ensureRequiredProps(
+    //     tpl: MetadataTemplate,
+    //     current: Record<string, any> | undefined
+    // ) {
+    //     const next: Record<string, any> = { ...(current ?? {}) };
+    //     const props = tpl.properties ?? [];
+    //     for (const p of props) {
+    //         if (!p.required) continue;
+    //         if (!(p.key in next)) next[p.key] = ""; // можно заменить на p.default если он есть
+    //     }
+    //     return next;
+    // }
 
     const setNodeTemplate = useCallback(
         (nodeId: string, templateKey: string | null) => {
@@ -128,14 +128,14 @@ export function useEdges(args: UseEdgesArgs) {
                     // если ключ не меняется — ничего не трогаем
                     if (n.templateKey === templateKey) return n;
 
-                    const nodeKey = n.nodeKey ?? "";
-                    const tpl = getTemplateByKey(args.templates, nodeKey, templateKey);
+                    // const nodeKey = n.nodeKey ?? "";
+                    // const tpl = getTemplateByKey(args.templates, nodeKey, templateKey);
 
-                    const nextProps = tpl
-                        ? ensureRequiredProps(tpl, n.templateProps)
-                        : (n.templateProps ?? {});
+                    // const nextProps = tpl
+                    //     ? ensureRequiredProps(tpl, n.templateProps)
+                    //     : (n.templateProps ?? {});
 
-                    return { ...n, templateKey, templateProps: nextProps };
+                    return { ...n, templateKey, templateProps: { ...(n.templateProps ?? {}), __test: "1" } };
                 }),
             }));
         },
