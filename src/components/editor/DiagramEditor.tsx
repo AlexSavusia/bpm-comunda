@@ -34,6 +34,7 @@ export default function DiagramEditor() {
         selectNode: selection.selectNode,
         selectEdge: selection.selectEdge,
         selectedEdgeId: selection.selectedEdgeId,
+        templates: meta.templates,
     });
 
     useEditorHotkeys({
