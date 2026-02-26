@@ -13,8 +13,11 @@ export type Point = { x: number; y: number };
 export type DiagramNode = {
     id: string;
     type: NodeType;
+    nodeKey?: string;
     name: string;
     position: { x: number; y: number };
+    templateKey?: string;
+    templateProps?: Record<string, any>;
 };
 
 
@@ -23,6 +26,8 @@ export type DiagramEdge = {
     from: string;
     to: string;
     waypoints?: Point[];
+    mainFlow?: boolean;
+    condition?: string;
 };
 
 

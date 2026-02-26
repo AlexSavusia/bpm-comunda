@@ -64,6 +64,32 @@ export function useEdges(args: UseEdgesArgs) {
         selectNode(node.id);
     }, [schema.nodes.length, selectNode, setSchema]);
 
+    const addNodeFromDescriptor = useCallback((descriptorKey: string, descriptorName: string) => {
+        const idx = schema.nodes.length;
+
+        // минимальный маппинг на UI тип (чтобы карточки рисовать)
+        // можно расширять позже
+        const uiType: NodeType =
+            descriptorKey === "event_start" ? "startEvent" :
+                descriptorKey === "event_end" ? "endEvent" :
+                    descriptorKey.startsWith("task_") ? "task" :
+                        descriptorKey.startsWith("gateway_") ? "exclusiveGateway" :
+                            "task";
+
+        const node: DiagramNode = {
+            id: uid(),
+            type: uiType,
+            nodeKey: descriptorKey,
+            name: descriptorName,
+            position: { x: 40 + (idx % 3) * 200, y: 40 + Math.floor(idx / 3) * 120 },
+            templateKey: "template_noop",
+            templateProps: {},
+        };
+
+        setSchema((prev) => ({ ...prev, nodes: [...prev.nodes, node] }));
+        selectNode(node.id);
+    }, [schema.nodes.length, selectNode, setSchema]);
+
 
     const renameNode = useCallback((nodeId: string, name: string) => {
         setSchema((prev) => ({
@@ -72,12 +98,55 @@ export function useEdges(args: UseEdgesArgs) {
         }));
     }, []);
 
+    const setNodeTemplate = useCallback((nodeId: string, templateKey: string) => {
+        setSchema((prev) => ({
+            ...prev,
+            nodes: prev.nodes.map((n) =>
+                n.id === nodeId
+                    ? { ...n, templateKey, templateProps: n.templateProps ?? {} }
+                    : n
+            ),
+        }));
+    }, [setSchema]);
+
+    const setNodeTemplateProp = useCallback((nodeId: string, propKey: string, value: any) => {
+        setSchema((prev) => ({
+            ...prev,
+            nodes: prev.nodes.map((n) => {
+                if (n.id !== nodeId) return n;
+                const nextProps = { ...(n.templateProps ?? {}) };
+
+                if (value === undefined) {
+                    delete nextProps[propKey]; // ✅ удаление property
+                } else {
+                    nextProps[propKey] = value;
+                }
+
+                return { ...n, templateProps: nextProps };
+            }),
+        }));
+    }, [setSchema]);
+
     const addEdge = useCallback((from: string, to: string) => {
         if (from === to) return;
+
         setSchema((prev) => {
             const exists = prev.edges.some((e) => e.from === from && e.to === to);
             if (exists) return prev;
-            return { ...prev, edges: [...prev.edges, { id: uid(), from, to }] };
+
+            return {
+                ...prev,
+                edges: [
+                    ...prev.edges,
+                    {
+                        id: uid(),
+                        from,
+                        to,
+                        mainFlow: true,
+                        condition: "",
+                    },
+                ],
+            };
         });
     }, []);
 
@@ -203,7 +272,6 @@ export function useEdges(args: UseEdgesArgs) {
     }, []);
 
     type Axis = "x" | "y";
-    type Point = { x: number; y: number };
 
     const getWaypointAxis = (edgeId: string, index: number): Axis => {
         const edge = schema.edges.find((e) => e.id === edgeId);
@@ -309,8 +377,34 @@ export function useEdges(args: UseEdgesArgs) {
         }));
     }, []);
 
+    const loadSchema = useCallback((next: DiagramSchema) => {
+        setSchema(next);
+        history.reset();
+        setIsConnectMode(false);
+        setConnectFromNodeId(null);
+    }, [setSchema, history]);
+
+    const setEdgeMainFlow = useCallback((edgeId: string, value: boolean) => {
+        setSchema((prev) => ({
+            ...prev,
+            edges: prev.edges.map((e) =>
+                e.id === edgeId ? { ...e, mainFlow: value } : e
+            ),
+        }));
+    }, []);
+
+    const setEdgeCondition = useCallback((edgeId: string, value: string) => {
+        setSchema((prev) => ({
+            ...prev,
+            edges: prev.edges.map((e) =>
+                e.id === edgeId ? { ...e, condition: value } : e
+            ),
+        }));
+    }, []);
+
     return {
         schema,
+        loadSchema,
         setSchema,
         issues,
         nodeIdWithError,
@@ -327,7 +421,10 @@ export function useEdges(args: UseEdgesArgs) {
         setConnectFromNodeId,
 
         addNode,
+        addNodeFromDescriptor,
         renameNode,
+        setNodeTemplate,
+        setNodeTemplateProp,
         removeNode,
 
         addEdge,
@@ -352,5 +449,7 @@ export function useEdges(args: UseEdgesArgs) {
         selectedEdgeId,
 
         removeWaypoint,
+        setEdgeMainFlow,
+        setEdgeCondition,
     };
 }

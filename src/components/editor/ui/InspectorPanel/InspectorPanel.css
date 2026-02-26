@@ -215,3 +215,48 @@
     font-size: 12px;
     color: #6b7280;
 }
+
+.insp__hint {
+    margin-top: 6px;
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+.insp__req {
+    color: #ff6b6b;
+    margin-left: 6px;
+    font-weight: 700;
+}
+
+.insp__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.insp__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.16);
+    background: rgba(255,255,255,0.06);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.insp__chipX {
+    border: none;
+    background: transparent;
+    color: inherit;
+    opacity: 0.8;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0 2px;
+}
+
+.insp__chipX:hover {
+    opacity: 1;
+}

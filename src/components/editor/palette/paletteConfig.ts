@@ -14,21 +14,16 @@ export const PALETTE: PaletteGroup[] = [
     {
         i18nKey: "palette.events",
         items: [
-            { type: "intermediateThrowEvent", i18nKey: "palette.intermediateThrowEvent" },
+            { type: "startEvent", i18nKey: "palette.startEvent" },
             { type: "endEvent", i18nKey: "palette.endEvent" },
-            { type: "startEvent", i18nKey: "palette.startEvent" }
         ],
     },
     {
         i18nKey: "palette.tasks",
-        items: [{ type: "task", i18nKey: "palette.task" }],
+        items: [{ type: "task", i18nKey: "palette.taskService" }], // сделай ключ в i18n
     },
     {
         i18nKey: "palette.gateways",
-        items: [
-            { type: "exclusiveGateway", i18nKey: "palette.exclusiveGateway" },
-            { type: "parallelGateway", i18nKey: "palette.parallelGateway" },
-            { type: "eventBasedGateway", i18nKey: "palette.eventBasedGateway" },
-        ],
+        items: [{ type: "exclusiveGateway", i18nKey: "palette.exclusiveGateway" }],
     },
 ];

@@ -116,3 +116,36 @@
     position: absolute;
     inset: 0;
 }
+
+.process-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.process-item {
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #1e1e1e;
+    border: 1px solid transparent;
+}
+
+.process-item:hover {
+    background: #2a2a2a;
+}
+
+.process-item.active {
+    border-color: #4da3ff;
+    background: #243447;
+}
+
+.process-item__name {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.process-item__badge {
+    font-size: 11px;
+    color: #7cff7c;
+}
