@@ -92,15 +92,17 @@ export function useEdges(args: UseEdgesArgs) {
     const setNodeTemplate = useCallback((nodeId: string, templateKey: string | null) => {
         setSchema((prev) => ({
             ...prev,
-            nodes: prev.nodes.map((n) =>
-                n.id === nodeId
-                    ? {
-                        ...n,
-                        templateKey,                 // ✅ string | null
-                        templateProps: templateKey ? (n.templateProps ?? {}) : {}, // ✅ сброс если null
-                    }
-                    : n
-            ),
+            nodes: prev.nodes.map((n) => {
+                if (n.id !== nodeId) return n;
+
+                // если реально меняем на null — сбрасываем props
+                if (!templateKey) {
+                    return { ...n, templateKey: null, templateProps: {} };
+                }
+
+                // если ставим/меняем на конкретный шаблон — props оставляем как есть
+                return { ...n, templateKey, templateProps: n.templateProps ?? {} };
+            }),
         }));
     }, [setSchema]);
 
