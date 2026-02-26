@@ -97,11 +97,11 @@ export function useEdges(args: UseEdgesArgs) {
 
                 // если реально меняем на null — сбрасываем props
                 if (!templateKey) {
-                    return { ...n, templateKey: null, templateProps: {} };
+                    return { ...n, templateKey: null,};
                 }
 
                 // если ставим/меняем на конкретный шаблон — props оставляем как есть
-                return { ...n, templateKey, templateProps: n.templateProps ?? {} };
+                return { ...n, templateKey, templateProps: n.templateProps };
             }),
         }));
     }, [setSchema]);
@@ -111,13 +111,9 @@ export function useEdges(args: UseEdgesArgs) {
             ...prev,
             nodes: prev.nodes.map((n) => {
                 if (n.id !== nodeId) return n;
-                const nextProps = { ...(n.templateProps ?? {}) };
+                const nextProps = { ...(n.templateProps) };
 
-                if (value === undefined) {
-                    delete nextProps[propKey];
-                } else {
-                    nextProps[propKey] = value;
-                }
+                nextProps[propKey] = value;
 
                 return { ...n, templateProps: nextProps };
             }),
