@@ -4,7 +4,6 @@ type Updater<T> = T | ((prev: T) => T);
 
 type Options<T> = {
     limit?: number;
-    // опционально: кастомная проверка "ничего не изменилось"
     isEqual?: (a: T, b: T) => boolean;
 };
 
@@ -68,7 +67,6 @@ export function useHistoryState<T>(initial: T, options: Options<T> = {}) {
         setPresent(next ?? initial);
     }, [initial]);
 
-    // memo, чтобы не пересоздавать объект без нужды
     return useMemo(
         () => ({
             present,

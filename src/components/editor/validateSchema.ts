@@ -9,7 +9,6 @@ export function validateSchema(schema: DiagramSchema): ValidationIssue[] {
 
     const nodesById = new Map(schema.nodes.map((n) => [n.id, n]));
 
-    // edges -> existing nodes
     for (const e of schema.edges) {
         if (!nodesById.has(e.from)) {
             issues.push({
@@ -35,7 +34,6 @@ export function validateSchema(schema: DiagramSchema): ValidationIssue[] {
     const starts = schema.nodes.filter((n) => n.type === "startEvent");
     const ends = schema.nodes.filter((n) => n.type === "endEvent");
 
-    // exactly one start
     if (starts.length === 0) {
         issues.push({
             id: issueId(),
@@ -51,7 +49,6 @@ export function validateSchema(schema: DiagramSchema): ValidationIssue[] {
         });
     }
 
-    // at least one end
     if (ends.length === 0) {
         issues.push({
             id: issueId(),
@@ -73,7 +70,6 @@ export function validateSchema(schema: DiagramSchema): ValidationIssue[] {
         outCount.set(e.from, (outCount.get(e.from) ?? 0) + 1);
     }
 
-    // start cannot have incoming
     for (const s of starts) {
         if ((inCount.get(s.id) ?? 0) > 0) {
             issues.push({
@@ -85,7 +81,6 @@ export function validateSchema(schema: DiagramSchema): ValidationIssue[] {
         }
     }
 
-    // end cannot have outgoing
     for (const e of ends) {
         if ((outCount.get(e.id) ?? 0) > 0) {
             issues.push({

@@ -46,7 +46,6 @@ export default function DiagramEditor() {
 
         resetViewport: viewport.resetViewport,
 
-        // NEW
         undo: edges.undo,
         redo: edges.redo,
         canUndo: edges.canUndo,

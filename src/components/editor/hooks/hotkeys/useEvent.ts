@@ -7,6 +7,5 @@ export function useEvent<T extends (...args: any[]) => any>(handler: T): T {
         ref.current = handler;
     }, [handler]);
 
-    // stable identity, always calls latest handler
     return ((...args: any[]) => ref.current(...args)) as T;
 }

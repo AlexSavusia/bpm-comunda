@@ -1,4 +1,3 @@
-// src/components/editor/hooks/useViewport.ts
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import type { Point } from "../utils/geometry";
 
@@ -18,7 +17,6 @@ export function useViewport(opts: ViewportOptions = {}) {
     const [zoom, setZoom] = useState(1);
     const [pan, setPan] = useState<Point>({ x: 0, y: 0 });
 
-    // space-to-pan
     const [panMode, setPanMode] = useState(false);
     const [panStart, setPanStart] = useState<Point | null>(null);
 

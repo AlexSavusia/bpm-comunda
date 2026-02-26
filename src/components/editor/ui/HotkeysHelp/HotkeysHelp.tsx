@@ -22,14 +22,7 @@ function normalizeKeysText(
         .replaceAll("Click", clickText);
 }
 
-/**
- * Превращает строку вида:
- * "Ctrl + Shift + Z / Ctrl + Y" -> Kbd'шки + разделители + /
- * "Space + Drag" -> ...
- */
 function renderKeys(keysText: string) {
-    // Разбиваем на токены, сохраняя разделители + и /
-    // Пример токенов: ["Ctrl", "+", "Shift", "+", "Z", "/", "Ctrl", "+", "Y"]
     const tokens = keysText
         .split(/(\+|\/)/g)
         .map((s) => s.trim())

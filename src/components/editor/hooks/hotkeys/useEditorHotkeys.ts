@@ -8,7 +8,6 @@ type SelectedWaypoint = { edgeId: string; index: number } | null;
 type Args = {
     enabled?: boolean;
 
-    // selection state
     selectedNodeId: string | null;
     selectedEdgeId: string | null;
     selectedWaypoint: SelectedWaypoint;
@@ -18,17 +17,14 @@ type Args = {
     canUndo: boolean;
     canRedo: boolean;
 
-    // selection actions
     selectNode: (id: string | null) => void;
     selectEdge: (id: string | null) => void;
     clearWaypoint: () => void;
 
-    // mutations
     removeNode: (nodeId: string) => void;
     removeEdge: (edgeId: string) => void;
     removeWaypoint: (edgeId: string, index: number) => void;
 
-    // viewport
     resetViewport: () => void;
 };
 
@@ -46,18 +42,15 @@ export function useEditorHotkeys(args: Args) {
                 el?.tagName === "TEXTAREA" ||
                 (el as any)?.isContentEditable;
 
-            // Undo/Redo (не ломаем ввод)
             if (isMod && !isTyping) {
                 const key = e.key.toLowerCase();
 
-                // Ctrl/Cmd+Z
                 if (key === "z" && !e.shiftKey) {
                     e.preventDefault();
                     if (args.canUndo) args.undo();
                     return;
                 }
 
-                // Ctrl/Cmd+Shift+Z  OR  Ctrl/Cmd+Y
                 if ((key === "z" && e.shiftKey) || key === "y") {
                     e.preventDefault();
                     if (args.canRedo) args.redo();

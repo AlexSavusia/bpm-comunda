@@ -1,4 +1,3 @@
-// src/components/editor/ui/InspectorPanel/InspectorPanel.tsx
 import type { ChangeEvent } from "react";
 import type { DiagramEdge, DiagramNode, ValidationIssue } from "../../../../types/schema";
 import "./InspectorPanel.css";
@@ -8,18 +7,15 @@ type SelectedWaypoint = { edgeId: string; index: number } | null;
 type Props = {
     t: (key: string, params?: any) => string;
 
-    // selection
     selectedNode: DiagramNode | null;
     selectedEdge: DiagramEdge | null;
     selectedWaypoint: SelectedWaypoint;
 
-    // actions
     onSelectNode: (id: string | null) => void;
     onSelectEdge: (id: string | null) => void;
     onSelectWaypoint: (edgeId: string, index: number) => void;
     onClearWaypoint: () => void;
 
-    // mutate
     onRenameNode: (nodeId: string, name: string) => void;
     onDeleteNode: (nodeId: string) => void;
 
@@ -27,7 +23,6 @@ type Props = {
 
     onDeleteWaypoint: (edgeId: string, index: number) => void;
 
-    // problems
     issues: ValidationIssue[];
 };
 
@@ -194,7 +189,6 @@ export default function InspectorPanel({
                                 key={it.id}
                                 className="insp__problem"
                                 onClick={() => {
-                                    // при переходе сбрасываем waypoint selection
                                     onClearWaypoint();
 
                                     if (it.nodeId) {
