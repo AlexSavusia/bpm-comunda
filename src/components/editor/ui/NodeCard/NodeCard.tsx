@@ -18,7 +18,16 @@ type Props = {
 function Icon({ kind }: { kind: string }) {
     const k = kind.toLowerCase();
 
-    if (k === "end" || k === "start") {
+    if ( k === "start") {
+        return (
+            <svg viewBox="0 0 24 24" className="node__svg" aria-hidden="true">
+                <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="2" />
+                <circle cx="12" cy="12" r="2" fill="currentColor" />
+            </svg>
+        );
+    }
+
+    if (k === "end") {
         return (
             <svg viewBox="0 0 24 24" className="node__svg" aria-hidden="true">
                 <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -60,8 +69,8 @@ function Icon({ kind }: { kind: string }) {
 
 function typeClass(t: string) {
     const k = t.toLowerCase();
-    if (k === "end") return "node--event";
-    if (k === "start") return "node--event";
+    if (k === "end") return "node--end";
+    if (k === "start") return "node--start";
     if (k === "service task") return "node--task";
     if (k === "exclusive gateway") return "node--gateway";
     return "node--other";

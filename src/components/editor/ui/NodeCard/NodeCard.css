@@ -56,8 +56,11 @@
 }
 
 /* цвет и “акцент” по типу (можешь подогнать под palette.css) */
-.node--event {
+.node--start {
     color: #0b6;
+}
+.node--end {
+    color: #b00020;
 }
 .node--task {
     color: #06c;

@@ -31,8 +31,8 @@ export function validateSchema(schema: DiagramSchema): ValidationIssue[] {
         }
     }
 
-    const starts = schema.nodes.filter((n) => n.type === "startEvent");
-    const ends = schema.nodes.filter((n) => n.type === "endEvent");
+    const starts = schema.nodes.filter((n) => n.nodeKey === "event_start");
+    const ends = schema.nodes.filter((n) => n.nodeKey === "event_end");
 
     if (starts.length === 0) {
         issues.push({
@@ -93,24 +93,24 @@ export function validateSchema(schema: DiagramSchema): ValidationIssue[] {
     }
 
     for (const n of schema.nodes) {
-        if (n.type !== "startEvent" && (inCount.get(n.id) ?? 0) === 0) {
+        if (n.nodeKey !== "event_start" && (inCount.get(n.id) ?? 0) === 0) {
             issues.push({
                 id: issueId(),
                 level: "warning",
                 i18nKey: "validation.noIncoming",
-                i18nParams: { name: n.name },
+                i18nParams: { name: n.nodeKey },
                 nodeId: n.id,
             });
         }
     }
 
     for (const n of schema.nodes) {
-        if (n.type !== "endEvent" && (outCount.get(n.id) ?? 0) === 0) {
+        if (n.nodeKey !== "event_end" && (outCount.get(n.id) ?? 0) === 0) {
             issues.push({
                 id: issueId(),
                 level: "warning",
                 i18nKey: "validation.noOutgoing",
-                i18nParams: { name: n.name },
+                i18nParams: { name: n.nodeKey },
                 nodeId: n.id,
             });
         }
